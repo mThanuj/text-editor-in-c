@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <unistd.h>
 
 #include "display.h"
@@ -8,12 +9,14 @@ int main() {
   EditorState* state = create_editor_state();
   init_display();
 
-  bool running = true;
-  while (running) {
-    int ch = getch();
-    if (ch == 'q' && state->mode == NORMAL_MODE) running = false;
-    handle_input(state, ch);
+  while (true) {
     render_screen(state);
+    int ch = getch();
+    if (ch == 'q' && state->mode == NORMAL_MODE) {
+      break;
+    }
+
+    handle_input(state, ch);
   }
 
   close_display();

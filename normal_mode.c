@@ -23,6 +23,9 @@ void normal_mode_handle(EditorState* s, int ch) {
     case 'w':
       cursor_move_word_forward(s);
       break;
+    case 'b':
+      cursor_move_word_backward(s);
+      break;
   }
   adjust_scroll(s);
 }
