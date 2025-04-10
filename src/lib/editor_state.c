@@ -1,5 +1,7 @@
 #include "../header/editor_state.h"
 
+#include <ncurses.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -65,4 +67,10 @@ void destroy_editor_state(EditorState* state) {
 
   // Free the editor state
   free(state);
+}
+
+void set_status_message(const EditorState* state) {
+  mvprintw(LINES - 1, 0, "%s %d:%d \t %s",
+           state->mode == NORMAL_MODE ? "NORMAL" : "INSERT", state->row + 1,
+           state->col + 1, state->status_msg != NULL ? state->status_msg : "");
 }

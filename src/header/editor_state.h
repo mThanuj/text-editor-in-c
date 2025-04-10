@@ -14,9 +14,11 @@ typedef struct {
   int scroll_offset_row;
   int scroll_offset_col;
   const char* filename;
+  char* status_msg;
 } EditorState;
 
 EditorState* create_editor_state(const char* filename);
 void destroy_editor_state(EditorState* state);
+void set_status_message(const EditorState* state);
 
 #endif

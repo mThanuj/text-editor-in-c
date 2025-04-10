@@ -17,6 +17,7 @@ void normal_mode_handle(EditorState* s, int ch) {
     case 'i':
       // Switch to insert mode
       s->mode = INSERT_MODE;
+      s->status_msg = NULL;
       break;
     case 'h':
       // Move the cursor left

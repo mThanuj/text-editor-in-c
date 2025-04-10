@@ -26,7 +26,7 @@ void cursor_move_left(EditorState* s) {
  */
 void cursor_move_right(EditorState* s) {
   int len = strlen(s->buffer[s->row]);
-  if (s->col < len) {
+  if (s->col < len - 1) {
     s->col++;
   }
 }

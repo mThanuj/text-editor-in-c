@@ -17,4 +17,5 @@ void save_file(EditorState* s) {
   }
 
   fclose(fp);
+  s->status_msg = "File saved";
 }
