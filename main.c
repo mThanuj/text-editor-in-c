@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,6 +23,7 @@ void handle_insert_mode_input(int ch);
 int find_col(int row);
 void get_text_range(int row, int start_col, int end_col, char* buffer);
 void adjust_scroll(void);
+void find_next_word(int* row, int* col);
 
 int main(void) {
   int ch;
@@ -111,6 +113,12 @@ void handle_normal_mode_input(int ch) {
     case 'i':
       mode = 1;
       break;
+    case 'w': {
+      fprintf(stderr, "from: %d:%d\n", row, col);
+      find_next_word(&row, &col);
+      fprintf(stderr, "to: %d:%d\n", row, col);
+      break;
+    }
     case 'h':
       if (col > 0) col--;
       break;
@@ -234,4 +242,33 @@ void adjust_scroll() {
   } else if (col >= scroll_offset_col + COLS) {
     scroll_offset_col = col - (COLS - 1);
   }
+}
+
+void find_next_word(int* row, int* col) {
+  int cur_row = *row;
+  int cur_col = *col;
+
+  int len = strlen(buffer[cur_row]);
+  while (cur_col < len) {
+    chtype ch = mvwinch(stdscr, cur_row, cur_col);
+    if ((ch & A_CHARTEXT) == ' ') {
+      break;
+    }
+    cur_col++;
+  }
+  if (cur_col == len) {
+    cur_row += 1;
+    cur_col = 0;
+  }
+
+  while (cur_col < len) {
+    chtype ch = mvwinch(stdscr, cur_row, cur_col);
+    if (!((ch & A_CHARTEXT) == ' ')) {
+      break;
+    }
+    cur_col++;
+  }
+
+  *row = cur_row == total_lines ? cur_row - 1 : cur_row;
+  *col = cur_col == len ? cur_col - 1 : cur_col;
 }
