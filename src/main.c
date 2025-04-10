@@ -1,9 +1,9 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#include "display.h"
-#include "editor_state.h"
-#include "input.h"
+#include "lib/display.h"
+#include "lib/editor_state.h"
+#include "lib/input.h"
 
 int main() {
   EditorState* state = create_editor_state();
@@ -11,6 +11,7 @@ int main() {
 
   while (true) {
     render_screen(state);
+
     int ch = getch();
     if (ch == 'q' && state->mode == NORMAL_MODE) {
       break;

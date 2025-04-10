@@ -49,7 +49,8 @@ void adjust_scroll(EditorState* state) {
 
   if (state->col < state->scroll_offset_col) {
     state->scroll_offset_col = state->col;
-  } else if (state->col >= state->scroll_offset_col + COLS) {
-    state->scroll_offset_col = state->col - (COLS - 1);
+  } else if (state->col >=
+             state->scroll_offset_col + (COLS - LINE_NUMBER_WIDTH)) {
+    state->scroll_offset_col = state->col - (COLS - LINE_NUMBER_WIDTH - 1);
   }
 }
