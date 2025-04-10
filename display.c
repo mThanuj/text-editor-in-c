@@ -1,4 +1,5 @@
 #include "display.h"
+#define LINE_NUMBER_WIDTH 6
 
 void init_display() {
   initscr();
@@ -18,18 +19,21 @@ void render_screen(const EditorState* state) {
   for (int i = 0; i < screen_lines; i++) {
     int buffer_row = state->scroll_offset_row + i;
     if (buffer_row < state->total_lines) {
-      mvaddnstr(i, 0, state->buffer[buffer_row] + state->scroll_offset_col,
-                COLS);
+      mvprintw(i, 0, "%*d ", LINE_NUMBER_WIDTH - 1, buffer_row + 1);
+
+      mvaddnstr(i, LINE_NUMBER_WIDTH,
+                state->buffer[buffer_row] + state->scroll_offset_col,
+                COLS - LINE_NUMBER_WIDTH);
     }
   }
 
   char* mode_str = (state->mode == NORMAL_MODE) ? "NORMAL" : "INSERT";
-  mvprintw(LINES - 1, 0, "%s %d:%d", mode_str, state->row, state->col);
+  mvprintw(LINES - 1, 0, "%s %d:%d", mode_str, state->row + 1, state->col + 1);
 
   int screen_row = state->row - state->scroll_offset_row;
-  int screen_col = state->col - state->scroll_offset_col;
-  if (screen_row >= 0 && screen_row < LINES - 1 && screen_col >= 0 &&
-      screen_col < COLS) {
+  int screen_col = state->col - state->scroll_offset_col + LINE_NUMBER_WIDTH;
+  if (screen_row >= 0 && screen_row < LINES - 1 &&
+      screen_col >= LINE_NUMBER_WIDTH && screen_col < COLS) {
     move(screen_row, screen_col);
   }
 
