@@ -7,11 +7,11 @@ A simple vim-like text editor written in C.
 - make the executable file
 
 ```bash
-$ make
+ make
 ```
 
 - run the executable file
 
 ```bash
-$ ./target/editor
+ ./target/editor
 ```
