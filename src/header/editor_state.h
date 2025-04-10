@@ -1,8 +1,8 @@
 #ifndef EDITOR_STATE_H
 #define EDITOR_STATE_H
 
-#define MAX_LINES 100
-#define MAX_COLS 1000
+#define MAX_LINES 10000
+#define MAX_COLS 10000
 
 typedef enum { NORMAL_MODE, INSERT_MODE } EditorMode;
 
@@ -13,9 +13,10 @@ typedef struct {
   EditorMode mode;
   int scroll_offset_row;
   int scroll_offset_col;
+  const char* filename;
 } EditorState;
 
-EditorState* create_editor_state();
+EditorState* create_editor_state(const char* filename);
 void destroy_editor_state(EditorState* state);
 
 #endif
